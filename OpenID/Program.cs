@@ -50,7 +50,7 @@ namespace OpenID
                     Log.Information("Seeding database...");
                     var config = host.Services.GetRequiredService<IConfiguration>();
                     var connectionString = config.GetConnectionString("DefaultConnection");
-                    SeedData.EnsureSeedData(connectionString);
+                    //SeedData.EnsureSeedData(connectionString);
                     Log.Information("Done seeding database.");
                     return 0;
                 }

@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="Data\Migrations\IdentityServer\" />
+    <Folder Include="NewFolder\" />
   </ItemGroup>
 
 </Project>
