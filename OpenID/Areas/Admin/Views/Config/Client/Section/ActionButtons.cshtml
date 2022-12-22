@@ -1,0 +1,15 @@
+﻿
+@using OpenID.AdminUI.Configuration.Constants
+@model OpenID.Dtos.Configuration.ClientDto
+
+
+<div class="row client">
+	<div class="col-md-12 action-butons">
+		<button class="client-save-button btn btn-primary">Save</button>
+
+		@if (Model.Id != 0)
+		{
+			<a asp-area="@CommonConsts.AdminUIArea" asp-action="ClientDelete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+		}
+	</div>
+</div>

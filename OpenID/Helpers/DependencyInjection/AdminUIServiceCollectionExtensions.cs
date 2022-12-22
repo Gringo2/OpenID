@@ -188,10 +188,10 @@ namespace Microsoft.Extensions.DependencyInjection
             //    TDataProtectionDbContext, TAuditLog>(options.Admin, options.ConnectionStrings, options.DatabaseProvider);
 
             // Adds a startup filter for further middleware configuration.
-            services.AddSingleton(options.Testing);
-            services.AddSingleton(options.Security);
-            services.AddSingleton(options.Http);
-            services.AddTransient<IStartupFilter, StartupFilter>();
+            //services.AddSingleton(options.Testing);
+            //services.AddSingleton(options.Security);
+            //services.AddSingleton(options.Http);
+            //services.AddTransient<IStartupFilter, StartupFilter>();
 
             return services;
         }

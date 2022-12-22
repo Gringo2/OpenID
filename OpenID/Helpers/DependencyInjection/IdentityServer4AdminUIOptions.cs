@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Skoruba.IdentityServer4.Admin.UI.Configuration;
-using Skoruba.IdentityServer4.Admin.UI.Configuration.Constants;
+using OpenID.AdminUI.Configuration;
+using OpenID.AdminUI.Configuration.Constants;
 using System;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.Configuration;
 using OpenID.Configuration;

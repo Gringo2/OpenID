@@ -122,7 +122,7 @@ namespace OpenID
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             // this will do the initial DB population
             //InitializeDatabase(app);

@@ -1,4 +1,4 @@
-﻿namespace Skoruba.IdentityServer4.Admin.UI.Configuration
+﻿namespace OpenID.AdminUI.Configuration
 {
 	public class TestingConfiguration
 	{

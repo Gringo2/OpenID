@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Skoruba.IdentityServer4.Admin.UI.Configuration.Constants
+namespace OpenID.AdminUI.Configuration.Constants
 {
     public class ConfigurationConsts
     {

@@ -1,20 +1,20 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using OpenID.Constants
+@using OpenID.AdminUI.Configuration.Constants
 @model OpenID.Dtos.Configuration.ClientDto
-@inject IViewLocalizer Localizer
+
 
 @{
-    ViewBag.Title = Localizer["PageTitle"];
+    ViewBag.Title = "Client";
     Layout = "_Layout";
 }
 
-<form asp-area="@CommonConsts.AdminUIArea" id="client-form" asp-controller="Configuration" asp-action="Client" Method="post">
+<form asp-area="@CommonConsts.AdminUIArea" id="client-form" asp-controller="Config" asp-action="Client" Method="post">
 
     <div class="row">
         <div class="col-12">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-area="@CommonConsts.AdminUIArea" asp-controller="Configuration" asp-action="Clients">@Localizer["NavigationClients"]</a></li>
+                    <li class="breadcrumb-item"><a asp-area="@CommonConsts.AdminUIArea" asp-controller="Config" asp-action="Clients">Clients</a></li>
                     <li class="breadcrumb-item active" aria-current="page">@Model.ClientId</li>
                 </ol>
             </nav>
@@ -23,7 +23,7 @@
         @if (Model.Id != 0)
         {
             <div class="col-12">
-                <h2>@Localizer["Title"] @Model.ClientId</h2>
+                <h2>@Model.ClientId</h2>
             </div>
         }
 
