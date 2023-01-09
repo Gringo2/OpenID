@@ -27,8 +27,11 @@ using OpenID.Services.Interfaces;
 using OpenID.Shared.Dtos;
 using OpenID.Shared.Dtos.Identity;
 using Skoruba.AuditLogging.EntityFramework.Entities;
+using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Reflection;
+using OpenID.Repositories.Interfaces;
 
 namespace OpenID
 {
@@ -48,14 +51,12 @@ namespace OpenID
 
             services.AddControllersWithViews();
             services.AddRazorPages();
-			
-			
-
 
 			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+
+			services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -105,7 +106,9 @@ namespace OpenID
                     options.ClientId = "copy client ID from Google here";
                     options.ClientSecret = "copy client secret from Google here";
                 });
-            services.AddAdminServices<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminLogDbContext>();
+			
+
+			services.AddAdminServices<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext, AdminLogDbContext>();
 			// Adds the IdentityServer4 Admin UI with custom options.
 			services.AddIdentityServer4AdminUI<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext,
 			AdminLogDbContext, AdminAuditLogDbContext, AuditLog, IdentityServerDataProtectionDbContext,
@@ -115,6 +118,21 @@ namespace OpenID
 				IdentityUserClaimsDto, IdentityUserProviderDto, IdentityUserProvidersDto, IdentityUserChangePasswordDto,
 				IdentityRoleClaimsDto, IdentityUserClaimDto, IdentityRoleClaimDto>(ConfigureUIOptions);
 
+			services.AddAdminAspNetIdentityMapping();
+
+			//services.AddAdminAspNetIdentityServices<AdminIdentityDbContext, IdentityServerPersistedGrantDbContext,
+			//	IdentityUserDto, IdentityRoleDto, UserIdentity, UserIdentityRole, string, UserIdentityUserClaim, UserIdentityUserRole,
+			//	UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken,
+			//	IdentityUsersDto, IdentityRolesDto, IdentityUserRolesDto,
+			//	IdentityUserClaimsDto, IdentityUserProviderDto, IdentityUserProvidersDto, IdentityUserChangePasswordDto,
+			//	IdentityRoleClaimsDto, IdentityUserClaimDto, IdentityRoleClaimDto>();
+
+			//services.AddMvcServices<IdentityUserDto, IdentityRoleDto,
+			//	UserIdentity, UserIdentityRole, string, UserIdentityUserClaim, UserIdentityUserRole,
+			//	UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken,
+			//	IdentityUsersDto, IdentityRolesDto, IdentityUserRolesDto,
+			//	IdentityUserClaimsDto, IdentityUserProviderDto, IdentityUserProvidersDto, IdentityUserChangePasswordDto,
+			//	IdentityRoleClaimsDto, IdentityUserClaimDto, IdentityRoleClaimDto>();
 		}
 
         public void Configure(IApplicationBuilder app)
