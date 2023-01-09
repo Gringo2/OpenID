@@ -8,10 +8,10 @@ using System;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
-using static OpenID.AdminUI.Helpers.StartupHelpers;
 using OpenID.DbContexts.Interfaces;
 using OpenID.Dtos.Identity;
 using OpenID.AdminUI.Helpers;
+using static OpenID.Helpers.StartupHelpers;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -120,11 +120,11 @@ namespace Microsoft.Extensions.DependencyInjection
             }
             else
             {
-                //services.RegisterDbContextsStaging<TIdentityDbContext, TIdentityServerDbContext,
-                //    TPersistedGrantDbContext, TLogDbContext, TAuditLogDbContext,
-                //    TDataProtectionDbContext, TAuditLog>();
+                services.RegisterDbContextsStaging<TIdentityDbContext, TIdentityServerDbContext,
+                    TPersistedGrantDbContext, TLogDbContext, TAuditLogDbContext,
+                    TDataProtectionDbContext, TAuditLog>();
             }
-            
+
             // Save data protection keys to db, using a common application name shared between Admin and STS
             //services.AddDataProtection<TDataProtectionDbContext>(options.DataProtection, options.AzureKeyVault);
 
@@ -160,11 +160,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // Add all dependencies for Asp.Net Core Identity
             // If you want to change primary keys or use another db model for Asp.Net Core Identity:
-            //services.AddAdminAspNetIdentityServices<TIdentityDbContext, TPersistedGrantDbContext,
-            //    TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim,
-            //    TUserRole, TUserLogin, TRoleClaim, TUserToken, TUsersDto, TRolesDto, TUserRolesDto,
-            //    TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
-            //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();
+            services.AddAdminAspNetIdentityServices<TIdentityDbContext, TPersistedGrantDbContext,
+                TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim,
+                TUserRole, TUserLogin, TRoleClaim, TUserToken, TUsersDto, TRolesDto, TUserRolesDto,
+                TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
+                TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();
 
             // Add all dependencies for Asp.Net Core Identity in MVC - these dependencies are injected into generic Controllers
             // Including settings for MVC and Localization
@@ -188,10 +188,10 @@ namespace Microsoft.Extensions.DependencyInjection
             //    TDataProtectionDbContext, TAuditLog>(options.Admin, options.ConnectionStrings, options.DatabaseProvider);
 
             // Adds a startup filter for further middleware configuration.
-            //services.AddSingleton(options.Testing);
-            //services.AddSingleton(options.Security);
-            //services.AddSingleton(options.Http);
-            //services.AddTransient<IStartupFilter, StartupFilter>();
+            services.AddSingleton(options.Testing);
+            services.AddSingleton(options.Security);
+            services.AddSingleton(options.Http);
+            services.AddTransient<IStartupFilter, StartupFilter>();
 
             return services;
         }

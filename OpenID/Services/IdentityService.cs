@@ -49,17 +49,15 @@ namespace OpenID.Identity.Services
         protected readonly IIdentityRepository<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken> IdentityRepository;
         protected readonly IIdentityServiceResources IdentityServiceResources;
         protected readonly IMapper Mapper;
-        protected readonly IAuditEventLogger AuditEventLogger;
 
         public IdentityService(IIdentityRepository<TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken> identityRepository,
             IIdentityServiceResources identityServiceResources,
-            IMapper mapper,
-            IAuditEventLogger auditEventLogger)
+            IMapper mapper)
         {
             IdentityRepository = identityRepository;
             IdentityServiceResources = identityServiceResources;
             Mapper = mapper;
-            AuditEventLogger = auditEventLogger;
+         
         }
 
         public virtual async Task<bool> ExistsUserAsync(string userId)
@@ -83,8 +81,6 @@ namespace OpenID.Identity.Services
             var pagedList = await IdentityRepository.GetUsersAsync(search, page, pageSize);
             var usersDto = Mapper.Map<TUsersDto>(pagedList);
 
-            await AuditEventLogger.LogEventAsync(new UsersRequestedEvent<TUsersDto>(usersDto));
-
             return usersDto;
         }
 
@@ -98,8 +94,6 @@ namespace OpenID.Identity.Services
             var pagedList = await IdentityRepository.GetRoleUsersAsync(roleId, search, page, pageSize);
             var usersDto = Mapper.Map<TUsersDto>(pagedList);
 
-            await AuditEventLogger.LogEventAsync(new RoleUsersRequestedEvent<TUsersDto>(usersDto));
-
             return usersDto;
         }
 
@@ -108,16 +102,12 @@ namespace OpenID.Identity.Services
             var pagedList = await IdentityRepository.GetClaimUsersAsync(claimType, claimValue, page, pageSize);
             var usersDto = Mapper.Map<TUsersDto>(pagedList);
 
-            await AuditEventLogger.LogEventAsync(new ClaimUsersRequestedEvent<TUsersDto>(usersDto));
-
             return usersDto;
         }
         public virtual async Task<TRolesDto> GetRolesAsync(string search, int page = 1, int pageSize = 10)
         {
             PagedList<TRole> pagedList = await IdentityRepository.GetRolesAsync(search, page, pageSize);
             var rolesDto = Mapper.Map<TRolesDto>(pagedList);
-
-            await AuditEventLogger.LogEventAsync(new RolesRequestedEvent<TRolesDto>(rolesDto));
 
             return rolesDto;
         }
@@ -127,8 +117,6 @@ namespace OpenID.Identity.Services
             var roleEntity = Mapper.Map<TRole>(role);
             var (identityResult, roleId) = await IdentityRepository.CreateRoleAsync(roleEntity);
             var handleIdentityError = HandleIdentityError(identityResult, IdentityServiceResources.RoleCreateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, role);
-
-            await AuditEventLogger.LogEventAsync(new RoleAddedEvent<TRoleDto>(role));
 
             return (handleIdentityError, roleId);
         }
@@ -150,8 +138,6 @@ namespace OpenID.Identity.Services
 
             var roleDto = Mapper.Map<TRoleDto>(userIdentityRole);
 
-            await AuditEventLogger.LogEventAsync(new RoleRequestedEvent<TRoleDto>(roleDto));
-
             return roleDto;
         }
 
@@ -159,8 +145,6 @@ namespace OpenID.Identity.Services
         {
             var roles = await IdentityRepository.GetRolesAsync();
             var roleDtos = Mapper.Map<List<TRoleDto>>(roles);
-
-            await AuditEventLogger.LogEventAsync(new AllRolesRequestedEvent<TRoleDto>(roleDtos));
 
             return roleDtos;
         }
@@ -172,8 +156,6 @@ namespace OpenID.Identity.Services
             var originalRole = await GetRoleAsync(role.Id.ToString());
 
             var (identityResult, roleId) = await IdentityRepository.UpdateRoleAsync(userIdentityRole);
-
-            await AuditEventLogger.LogEventAsync(new RoleUpdatedEvent<TRoleDto>(originalRole, role));
 
             var handleIdentityError = HandleIdentityError(identityResult, IdentityServiceResources.RoleUpdateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, role);
 
@@ -187,8 +169,6 @@ namespace OpenID.Identity.Services
 
             var userDto = Mapper.Map<TUserDto>(identity);
 
-            await AuditEventLogger.LogEventAsync(new UserRequestedEvent<TUserDto>(userDto));
-
             return userDto;
         }
 
@@ -198,8 +178,6 @@ namespace OpenID.Identity.Services
             var (identityResult, userId) = await IdentityRepository.CreateUserAsync(userIdentity);
 
             var handleIdentityError = HandleIdentityError(identityResult, IdentityServiceResources.UserCreateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, user);
-
-            await AuditEventLogger.LogEventAsync(new UserSavedEvent<TUserDto>(user));
 
             return (handleIdentityError, userId);
         }
@@ -219,8 +197,6 @@ namespace OpenID.Identity.Services
             var (identityResult, userId) = await IdentityRepository.UpdateUserAsync(userIdentity);
             var handleIdentityError = HandleIdentityError(identityResult, IdentityServiceResources.UserUpdateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, user);
 
-            await AuditEventLogger.LogEventAsync(new UserUpdatedEvent<TUserDto>(originalUser, user));
-
             return (handleIdentityError, userId);
         }
 
@@ -239,16 +215,12 @@ namespace OpenID.Identity.Services
         {
             var identityResult = await IdentityRepository.DeleteUserAsync(userId);
 
-            await AuditEventLogger.LogEventAsync(new UserDeletedEvent<TUserDto>(user));
-
             return HandleIdentityError(identityResult, IdentityServiceResources.UserDeleteFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, user);
         }
 
         public virtual async Task<IdentityResult> CreateUserRoleAsync(TUserRolesDto role)
         {
             var identityResult = await IdentityRepository.CreateUserRoleAsync(role.UserId.ToString(), role.RoleId.ToString());
-
-            await AuditEventLogger.LogEventAsync(new UserRoleSavedEvent<TUserRolesDto>(role));
 
             if (!identityResult.Errors.Any()) return identityResult;
 
@@ -278,16 +250,12 @@ namespace OpenID.Identity.Services
             var user = await IdentityRepository.GetUserAsync(userId);
             roleDtos.UserName = user.UserName;
 
-            await AuditEventLogger.LogEventAsync(new UserRolesRequestedEvent<TUserRolesDto>(roleDtos));
-
             return roleDtos;
         }
 
         public virtual async Task<IdentityResult> DeleteUserRoleAsync(TUserRolesDto role)
         {
             var identityResult = await IdentityRepository.DeleteUserRoleAsync(role.UserId.ToString(), role.RoleId.ToString());
-
-            await AuditEventLogger.LogEventAsync(new UserRoleDeletedEvent<TUserRolesDto>(role));
 
             return HandleIdentityError(identityResult, IdentityServiceResources.UserRoleDeleteFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, role);
         }
@@ -303,8 +271,6 @@ namespace OpenID.Identity.Services
             var user = await IdentityRepository.GetUserAsync(userId);
             claimDtos.UserName = user.UserName;
 
-            await AuditEventLogger.LogEventAsync(new UserClaimsRequestedEvent<TUserClaimsDto>(claimDtos));
-
             return claimDtos;
         }
 
@@ -318,8 +284,6 @@ namespace OpenID.Identity.Services
 
             var userClaimsDto = Mapper.Map<TUserClaimsDto>(identityUserClaim);
 
-            await AuditEventLogger.LogEventAsync(new UserClaimRequestedEvent<TUserClaimsDto>(userClaimsDto));
-
             return userClaimsDto;
         }
 
@@ -327,8 +291,6 @@ namespace OpenID.Identity.Services
         {
             var userIdentityUserClaim = Mapper.Map<TUserClaim>(claimsDto);
             var identityResult = await IdentityRepository.CreateUserClaimsAsync(userIdentityUserClaim);
-
-            await AuditEventLogger.LogEventAsync(new UserClaimsSavedEvent<TUserClaimsDto>(claimsDto));
 
             return HandleIdentityError(identityResult, IdentityServiceResources.UserClaimsCreateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, claimsDto);
         }
@@ -338,16 +300,12 @@ namespace OpenID.Identity.Services
             var userIdentityUserClaim = Mapper.Map<TUserClaim>(claimsDto);
             var identityResult = await IdentityRepository.UpdateUserClaimsAsync(userIdentityUserClaim);
 
-            await AuditEventLogger.LogEventAsync(new UserClaimsSavedEvent<TUserClaimsDto>(claimsDto));
-
             return HandleIdentityError(identityResult, IdentityServiceResources.UserClaimsUpdateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, claimsDto);
         }
 
         public virtual async Task<IdentityResult> DeleteUserClaimAsync(TUserClaimsDto claim)
         {
             var deleted = await IdentityRepository.DeleteUserClaimAsync(claim.UserId.ToString(), claim.ClaimId);
-
-            await AuditEventLogger.LogEventAsync(new UserClaimsDeletedEvent<TUserClaimsDto>(claim));
 
             return deleted;
         }
@@ -373,16 +331,12 @@ namespace OpenID.Identity.Services
             var user = await IdentityRepository.GetUserAsync(userId);
             providersDto.UserName = user.UserName;
 
-            await AuditEventLogger.LogEventAsync(new UserProvidersRequestedEvent<TUserProvidersDto>(providersDto));
-
             return providersDto;
         }
 
         public virtual async Task<IdentityResult> DeleteUserProvidersAsync(TUserProviderDto provider)
         {
             var identityResult = await IdentityRepository.DeleteUserProvidersAsync(provider.UserId.ToString(), provider.ProviderKey, provider.LoginProvider);
-
-            await AuditEventLogger.LogEventAsync(new UserProvidersDeletedEvent<TUserProviderDto>(provider));
 
             return HandleIdentityError(identityResult, IdentityServiceResources.UserProviderDeleteFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, provider);
         }
@@ -399,8 +353,6 @@ namespace OpenID.Identity.Services
             var user = await GetUserAsync(userId);
             userProviderDto.UserName = user.UserName;
 
-            await AuditEventLogger.LogEventAsync(new UserProviderRequestedEvent<TUserProviderDto>(userProviderDto));
-
             return userProviderDto;
         }
 
@@ -411,8 +363,6 @@ namespace OpenID.Identity.Services
 
             var identityResult = await IdentityRepository.UserChangePasswordAsync(userPassword.UserId.ToString(), userPassword.Password);
 
-            await AuditEventLogger.LogEventAsync(new UserPasswordChangedEvent(userPassword.UserName));
-
             return HandleIdentityError(identityResult, IdentityServiceResources.UserChangePasswordFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, userPassword);
         }
 
@@ -421,8 +371,6 @@ namespace OpenID.Identity.Services
             var identityRoleClaim = Mapper.Map<TRoleClaim>(claimsDto);
             var identityResult = await IdentityRepository.CreateRoleClaimsAsync(identityRoleClaim);
 
-            await AuditEventLogger.LogEventAsync(new RoleClaimsSavedEvent<TRoleClaimsDto>(claimsDto));
-
             return HandleIdentityError(identityResult, IdentityServiceResources.RoleClaimsCreateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, claimsDto);
         }
 
@@ -430,8 +378,6 @@ namespace OpenID.Identity.Services
         {
             var identityRoleClaim = Mapper.Map<TRoleClaim>(claimsDto);
             var identityResult = await IdentityRepository.UpdateRoleClaimsAsync(identityRoleClaim);
-
-            await AuditEventLogger.LogEventAsync(new RoleClaimsSavedEvent<TRoleClaimsDto>(claimsDto));
 
             return HandleIdentityError(identityResult, IdentityServiceResources.RoleClaimsUpdateFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, claimsDto);
         }
@@ -445,8 +391,6 @@ namespace OpenID.Identity.Services
             var roleClaimDtos = Mapper.Map<TRoleClaimsDto>(identityRoleClaims);
             var roleDto = await GetRoleAsync(roleId);
             roleClaimDtos.RoleName = roleDto.Name;
-
-            await AuditEventLogger.LogEventAsync(new RoleClaimsRequestedEvent<TRoleClaimsDto>(roleClaimDtos));
 
             return roleClaimDtos;
         }
@@ -473,16 +417,12 @@ namespace OpenID.Identity.Services
             var roleDto = await GetRoleAsync(roleId);
             roleClaimsDto.RoleName = roleDto.Name;
 
-            await AuditEventLogger.LogEventAsync(new RoleClaimRequestedEvent<TRoleClaimsDto>(roleClaimsDto));
-
             return roleClaimsDto;
         }
 
         public virtual async Task<IdentityResult> DeleteRoleClaimAsync(TRoleClaimsDto role)
         {
             var deleted = await IdentityRepository.DeleteRoleClaimAsync(role.RoleId.ToString(), role.ClaimId);
-
-            await AuditEventLogger.LogEventAsync(new RoleClaimsDeletedEvent<TRoleClaimsDto>(role));
 
             return deleted;
         }
@@ -491,8 +431,6 @@ namespace OpenID.Identity.Services
         {
             var userIdentityRole = Mapper.Map<TRole>(role);
             var identityResult = await IdentityRepository.DeleteRoleAsync(userIdentityRole);
-
-            await AuditEventLogger.LogEventAsync(new RoleDeletedEvent<TRoleDto>(role));
 
             return HandleIdentityError(identityResult, IdentityServiceResources.RoleDeleteFailed().Description, IdentityServiceResources.IdentityErrorKey().Description, role);
         }

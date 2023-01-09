@@ -14,23 +14,18 @@ namespace OpenID.Services
     {
         protected readonly IPersistedGrantAspNetIdentityRepository PersistedGrantAspNetIdentityRepository;
         protected readonly IPersistedGrantAspNetIdentityServiceResources PersistedGrantAspNetIdentityServiceResources;
-        protected readonly IAuditEventLogger AuditEventLogger;
 
         public PersistedGrantAspNetIdentityService(IPersistedGrantAspNetIdentityRepository persistedGrantAspNetIdentityRepository,
-            IPersistedGrantAspNetIdentityServiceResources persistedGrantAspNetIdentityServiceResources,
-            IAuditEventLogger auditEventLogger)
+            IPersistedGrantAspNetIdentityServiceResources persistedGrantAspNetIdentityServiceResources)
         {
             PersistedGrantAspNetIdentityRepository = persistedGrantAspNetIdentityRepository;
             PersistedGrantAspNetIdentityServiceResources = persistedGrantAspNetIdentityServiceResources;
-            AuditEventLogger = auditEventLogger;
         }
 
         public virtual async Task<PersistedGrantsDto> GetPersistedGrantsByUsersAsync(string search, int page = 1, int pageSize = 10)
         {
             var pagedList = await PersistedGrantAspNetIdentityRepository.GetPersistedGrantsByUsersAsync(search, page, pageSize);
             var persistedGrantsDto = pagedList.ToModel();
-
-            await AuditEventLogger.LogEventAsync(new PersistedGrantsIdentityByUsersRequestedEvent(persistedGrantsDto));
 
             return persistedGrantsDto;
         }
@@ -43,8 +38,6 @@ namespace OpenID.Services
             var pagedList = await PersistedGrantAspNetIdentityRepository.GetPersistedGrantsByUserAsync(subjectId, page, pageSize);
             var persistedGrantsDto = pagedList.ToModel();
 
-            await AuditEventLogger.LogEventAsync(new PersistedGrantsIdentityByUserRequestedEvent(persistedGrantsDto));
-
             return persistedGrantsDto;
         }
 
@@ -53,8 +46,6 @@ namespace OpenID.Services
             var persistedGrant = await PersistedGrantAspNetIdentityRepository.GetPersistedGrantAsync(key);
             if (persistedGrant == null) throw new UserFriendlyErrorPageException(string.Format(PersistedGrantAspNetIdentityServiceResources.PersistedGrantDoesNotExist().Description, key), PersistedGrantAspNetIdentityServiceResources.PersistedGrantDoesNotExist().Description);
             var persistedGrantDto = persistedGrant.ToModel();
-
-            await AuditEventLogger.LogEventAsync(new PersistedGrantIdentityRequestedEvent(persistedGrantDto));
 
             return persistedGrantDto;
         }
@@ -66,8 +57,6 @@ namespace OpenID.Services
 
             var deleted = await PersistedGrantAspNetIdentityRepository.DeletePersistedGrantAsync(key);
 
-            await AuditEventLogger.LogEventAsync(new PersistedGrantIdentityDeletedEvent(key));
-
             return deleted;
         }
 
@@ -77,8 +66,6 @@ namespace OpenID.Services
             if (!exists) throw new UserFriendlyErrorPageException(string.Format(PersistedGrantAspNetIdentityServiceResources.PersistedGrantWithSubjectIdDoesNotExist().Description, userId), PersistedGrantAspNetIdentityServiceResources.PersistedGrantWithSubjectIdDoesNotExist().Description);
 
             var deleted = await PersistedGrantAspNetIdentityRepository.DeletePersistedGrantsAsync(userId);
-
-            await AuditEventLogger.LogEventAsync(new PersistedGrantsIdentityDeletedEvent(userId));
 
             return deleted;
         }
