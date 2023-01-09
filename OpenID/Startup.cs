@@ -49,9 +49,6 @@ namespace OpenID
             services.AddControllersWithViews();
             services.AddRazorPages();
 			
-			
-
-
 			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 

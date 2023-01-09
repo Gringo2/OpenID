@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		/// <summary>
 		/// The settings for audit logging.
 		/// </summary>
-		public AuditLoggingConfiguration AuditLogging { get; set; } = new AuditLoggingConfiguration();
+		//public AuditLoggingConfiguration AuditLogging { get; set; } = new AuditLoggingConfiguration();
 
 		/// <summary>
 		/// The settings for globalization.
@@ -54,12 +54,12 @@ namespace Microsoft.Extensions.DependencyInjection
 		/// <summary>
 		/// The settings for data protection.
 		/// </summary>
-		public DataProtectionConfiguration DataProtection { get; set; } = new DataProtectionConfiguration();
+		//public DataProtectionConfiguration DataProtection { get; set; } = new DataProtectionConfiguration();
 
 		/// <summary>
 		/// The settings for Azure key vault.
 		/// </summary>
-		public AzureKeyVaultConfiguration AzureKeyVault { get; set; } = new AzureKeyVaultConfiguration();
+		//public AzureKeyVaultConfiguration AzureKeyVault { get; set; } = new AzureKeyVaultConfiguration();
 
 		/// <summary>
 		/// Identity data to seed the databases.
@@ -97,10 +97,10 @@ namespace Microsoft.Extensions.DependencyInjection
 			configuration.GetSection(nameof(AdminConfiguration)).Bind(Admin);
 			configuration.GetSection(nameof(DatabaseProviderConfiguration)).Bind(DatabaseProvider);
 			configuration.GetSection(nameof(DatabaseMigrationsConfiguration)).Bind(DatabaseMigrations);
-			configuration.GetSection(nameof(AuditLoggingConfiguration)).Bind(AuditLogging);
+			//configuration.GetSection(nameof(AuditLoggingConfiguration)).Bind(AuditLogging);
 			configuration.GetSection(nameof(CultureConfiguration)).Bind(Culture);
-			configuration.GetSection(nameof(DataProtectionConfiguration)).Bind(DataProtection);
-			configuration.GetSection(nameof(AzureKeyVaultConfiguration)).Bind(AzureKeyVault);
+			//configuration.GetSection(nameof(DataProtectionConfiguration)).Bind(DataProtection);
+			//configuration.GetSection(nameof(AzureKeyVaultConfiguration)).Bind(AzureKeyVault);
 			IdentityConfigureAction = options => configuration.GetSection(nameof(IdentityOptions)).Bind(options);
 			configuration.GetSection(nameof(SecurityConfiguration)).Bind(Security);
 			configuration.GetSection(nameof(HttpConfiguration)).Bind(Http);
