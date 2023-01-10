@@ -1,32 +1,65 @@
-@using System.Diagnostics
-
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
 @{
-    var version = FileVersionInfo.GetVersionInfo(typeof(IdentityServer4.Hosting.IdentityServerMiddleware).Assembly.Location).ProductVersion.Split('+').First();
+}
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    //ViewBag.Title = AdminConfiguration.PageTitle;
+    Layout = "_Layout";
 }
 
-<div class="welcome-page">
-    <h1>
-        <img src="~/icon.jpg">
-        Welcome to IdentityServer4
-        <small class="text-muted">(version @version)</small>
-    </h1>
+<div style="margin: 50px;">
+</div>
 
-    <ul>
-        <li>
-            IdentityServer publishes a
-            <a href="~/.well-known/openid-configuration">discovery document</a>
-            where you can find metadata and links to all the endpoints, key material, etc.
-        </li>
-        <li>
-            Click <a href="~/diagnostics">here</a> to see the claims for your current session.
-        </li>
-        <li>
-            Click <a href="~/grants">here</a> to manage your stored grants.
-        </li>
-        <li>
-            Here are links to the
-            <a href="https://github.com/identityserver/IdentityServer4">source code repository</a>,
-            and <a href="https://github.com/IdentityServer/IdentityServer4/tree/main/samples">ready to use samples</a>.
-        </li>
-    </ul>
+<!-- Cards -->
+<div class="card-deck d-flex flex-row justify-content-center flex-shrink-0  mb-3 text-center" style="gap: 20px;">
+    <!-- Clients -->
+    <div class="card mb-4 w-25 box-shadow">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Clients</h4>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title">
+                <span class="oi oi-monitor" title="Clients" aria-hidden="true"></span>
+            </h1>
+            <a asp-area="Admin" asp-controller="Config" asp-action="Clients" class="btn btn-lg btn-block btn-outline-primary">Manage</a>
+        </div>
+    </div>
+    <!-- Users -->
+    <div class="card mb-4 w-25 box-shadow">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Users</h4>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title">
+                <span class="oi oi-person" title="Users" aria-hidden="true"></span>
+            </h1>
+            <a asp-area="" asp-controller="Identity" asp-action="Users" class="btn btn-lg btn-block btn-outline-primary">Manage</a>
+        </div>
+    </div>
+    <!-- Roles -->
+    <div class="card mb-4 w-25 box-shadow">
+        <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Roles</h4>
+        </div>
+        <div class="card-body">
+            <h1 class="card-title">
+                <span class="oi oi-lock-locked" title="Roles" aria-hidden="true"></span>
+            </h1>
+            <a asp-area="" asp-controller="Identity" asp-action="Roles" class="btn btn-lg btn-block btn-outline-primary">Manage</a>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="card-deck d-flex flex-row justify-content-center mb-3 text-center" style="gap:20px; flex:1;">
+    
+    
+
 </div>
