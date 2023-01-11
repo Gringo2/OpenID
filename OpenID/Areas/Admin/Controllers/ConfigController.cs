@@ -9,11 +9,11 @@ namespace OpenID.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Route("Admin/Config")]
-    public class ConfigController : BaseController
+    public class ConfigController : Controller
     {
 
 		private readonly IClientService _clientService;
-		public ConfigController(IClientService clientService, ILogger<ConfigController> logger) : base(logger)
+		public ConfigController(IClientService clientService, ILogger<ConfigController> logger)
 		{
 			_clientService = clientService;
 		}
@@ -59,14 +59,13 @@ namespace OpenID.Areas.Admin.Controllers
 			if (client.Id == 0)
 			{
 				var clientId = await _clientService.AddClientAsync(client);
-				SuccessNotification(string.Format("SuccessAddClient", client.ClientId),"SuccessTitle");
+				
 
 				return RedirectToAction(nameof(Client), new { Id = clientId });
 			}
 
 			//Update client
 			await _clientService.UpdateClientAsync(client);
-			SuccessNotification(string.Format("SuccessUpdateClient", client.ClientId), "SuccessTitle");
 
 			return RedirectToAction(nameof(Client), new { client.Id });
 		}

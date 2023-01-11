@@ -6,7 +6,6 @@ using IdentityServer4.Models;
 using OpenID.Dtos.Common;
 using OpenID.Dtos.Configuration;
 using OpenID.Dtos.Enums;
-using OpenID.Events.Client;
 using OpenID.ExceptionHandling;
 using OpenID.Helpers;
 using OpenID.Mappers;
@@ -23,7 +22,6 @@ namespace OpenID.Services
     {
         protected readonly IClientRepository ClientRepository;
         protected readonly IClientServiceResources ClientServiceResources;
-        //protected readonly IAuditEventLogger AuditEventLogger;
         private const string SharedSecret = "SharedSecret";
 
         public ClientService(IClientRepository clientRepository, IClientServiceResources clientServiceResources)
@@ -163,7 +161,6 @@ namespace OpenID.Services
 
             var added = await ClientRepository.AddClientAsync(clientEntity);
 
-            //await AuditEventLogger.LogEventAsync(new ClientAddedEvent(client));
 
             return added;
         }
@@ -218,8 +215,6 @@ namespace OpenID.Services
                 client.CloneClientPostLogoutRedirectUris,
                 client.CloneClientScopes, client.CloneClientRedirectUris, client.CloneClientClaims, client.CloneClientProperties);
 
-            //await AuditEventLogger.LogEventAsync(new ClientClonedEvent(client));
-
             return clonedClientId;
         }
 
@@ -238,8 +233,6 @@ namespace OpenID.Services
 
             var clientDto = client.ToModel();
 
-            //await AuditEventLogger.LogEventAsync(new ClientRequestedEvent(clientDto));
-
             return clientDto;
         }
 
@@ -247,8 +240,6 @@ namespace OpenID.Services
         {
             var pagedList = await ClientRepository.GetClientsAsync(search, page, pageSize);
             var clientsDto = pagedList.ToModel();
-
-            //await AuditEventLogger.LogEventAsync(new ClientsRequestedEvent(clientsDto));
 
             return clientsDto;
         }
@@ -330,8 +321,6 @@ namespace OpenID.Services
             var clientSecretEntity = clientSecret.ToEntity();
             var added = await ClientRepository.AddClientSecretAsync(clientSecret.ClientId, clientSecretEntity);
 
-            //await AuditEventLogger.LogEventAsync(new ClientSecretAddedEvent(clientSecret.ClientId, clientSecret.Type, clientSecret.Expiration));
-
             return added;
         }
 
@@ -340,8 +329,6 @@ namespace OpenID.Services
             var clientSecretEntity = clientSecret.ToEntity();
 
             var deleted = await ClientRepository.DeleteClientSecretAsync(clientSecretEntity);
-
-            //await AuditEventLogger.LogEventAsync(new ClientSecretDeletedEvent(clientSecret.ClientId, clientSecret.ClientSecretId));
 
             return deleted;
         }
@@ -356,10 +343,8 @@ namespace OpenID.Services
             clientSecretsDto.ClientId = clientId;
             clientSecretsDto.ClientName = ViewHelpers.GetClientName(clientInfo.ClientId, clientInfo.ClientName);
 
-            // remove secret value from dto
             clientSecretsDto.ClientSecrets.ForEach(x => x.Value = null);
 
-            //await AuditEventLogger.LogEventAsync(new ClientSecretsRequestedEvent(clientSecretsDto.ClientId, clientSecretsDto.ClientSecrets.Select(x => (x.Id, x.Type, x.Expiration)).ToList()));
 
             return clientSecretsDto;
         }
@@ -379,8 +364,6 @@ namespace OpenID.Services
             // remove secret value for dto
             clientSecretsDto.Value = null;
 
-            //await AuditEventLogger.LogEventAsync(new ClientSecretRequestedEvent(clientSecretsDto.ClientId, clientSecretsDto.ClientSecretId, clientSecretsDto.Type, clientSecretsDto.Expiration));
-
             return clientSecretsDto;
         }
 
@@ -394,8 +377,6 @@ namespace OpenID.Services
             clientClaimsDto.ClientId = clientId;
             clientClaimsDto.ClientName = ViewHelpers.GetClientName(clientInfo.ClientId, clientInfo.ClientName);
 
-            //await AuditEventLogger.LogEventAsync(new ClientClaimsRequestedEvent(clientClaimsDto));
-
             return clientClaimsDto;
         }
 
@@ -408,8 +389,6 @@ namespace OpenID.Services
             var clientPropertiesDto = pagedList.ToModel();
             clientPropertiesDto.ClientId = clientId;
             clientPropertiesDto.ClientName = ViewHelpers.GetClientName(clientInfo.ClientId, clientInfo.ClientName);
-
-            //await AuditEventLogger.LogEventAsync(new ClientPropertiesRequestedEvent(clientPropertiesDto));
 
             return clientPropertiesDto;
         }
@@ -426,8 +405,6 @@ namespace OpenID.Services
             clientClaimsDto.ClientId = clientClaim.Client.Id;
             clientClaimsDto.ClientName = ViewHelpers.GetClientName(clientInfo.ClientId, clientInfo.ClientName);
 
-            //await AuditEventLogger.LogEventAsync(new ClientClaimRequestedEvent(clientClaimsDto));
-
             return clientClaimsDto;
         }
 
@@ -443,8 +420,6 @@ namespace OpenID.Services
             clientPropertiesDto.ClientId = clientProperty.Client.Id;
             clientPropertiesDto.ClientName = ViewHelpers.GetClientName(clientInfo.ClientId, clientInfo.ClientName);
 
-            //await AuditEventLogger.LogEventAsync(new ClientPropertyRequestedEvent(clientPropertiesDto));
-
             return clientPropertiesDto;
         }
 
@@ -453,8 +428,6 @@ namespace OpenID.Services
             var clientClaimEntity = clientClaim.ToEntity();
 
             var saved = await ClientRepository.AddClientClaimAsync(clientClaim.ClientId, clientClaimEntity);
-
-            //await AuditEventLogger.LogEventAsync(new ClientClaimAddedEvent(clientClaim));
 
             return saved;
         }
@@ -465,8 +438,6 @@ namespace OpenID.Services
 
             var saved = await ClientRepository.AddClientPropertyAsync(clientProperties.ClientId, clientProperty);
 
-            //await AuditEventLogger.LogEventAsync(new ClientPropertyAddedEvent(clientProperties));
-
             return saved;
         }
 
@@ -476,8 +447,6 @@ namespace OpenID.Services
 
             var deleted = await ClientRepository.DeleteClientClaimAsync(clientClaimEntity);
 
-            //await AuditEventLogger.LogEventAsync(new ClientClaimDeletedEvent(clientClaim));
-
             return deleted;
         }
 
@@ -486,8 +455,6 @@ namespace OpenID.Services
             var clientPropertyEntity = clientProperty.ToEntity();
 
             var deleted = await ClientRepository.DeleteClientPropertyAsync(clientPropertyEntity);
-
-            //await AuditEventLogger.LogEventAsync(new ClientPropertyDeletedEvent(clientProperty));
 
             return deleted;
         }
