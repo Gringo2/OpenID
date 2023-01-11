@@ -36,6 +36,11 @@ namespace Microsoft.Extensions.DependencyInjection
 		public DatabaseMigrationsConfiguration DatabaseMigrations { get; set; } = new DatabaseMigrationsConfiguration();
 
 		/// <summary>
+		/// The settings for globalization.
+		/// </summary>
+		public CultureConfiguration Culture { get; set; } = new CultureConfiguration();
+
+		/// <summary>
 		/// An action to configure ASP.NET Core Identity.
 		/// </summary>
 		public Action<IdentityOptions> IdentityConfigureAction { get; set; } = options => { };
@@ -76,6 +81,10 @@ namespace Microsoft.Extensions.DependencyInjection
 			configuration.GetSection(nameof(AdminConfiguration)).Bind(Admin);
 			configuration.GetSection(nameof(DatabaseProviderConfiguration)).Bind(DatabaseProvider);
 			configuration.GetSection(nameof(DatabaseMigrationsConfiguration)).Bind(DatabaseMigrations);
+			//configuration.GetSection(nameof(AuditLoggingConfiguration)).Bind(AuditLogging);
+			configuration.GetSection(nameof(CultureConfiguration)).Bind(Culture);
+			//configuration.GetSection(nameof(DataProtectionConfiguration)).Bind(DataProtection);
+			//configuration.GetSection(nameof(AzureKeyVaultConfiguration)).Bind(AzureKeyVault);
 			IdentityConfigureAction = options => configuration.GetSection(nameof(IdentityOptions)).Bind(options);
 			configuration.GetSection(nameof(SecurityConfiguration)).Bind(Security);
 			configuration.GetSection(nameof(HttpConfiguration)).Bind(Http);
