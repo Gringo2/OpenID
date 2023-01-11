@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace OpenID.AdminUI.Configuration.Constants
+﻿namespace OpenID.AdminUI.Configuration.Constants
 {
     public class ConfigurationConsts
     {

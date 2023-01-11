@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OpenID.AdminUI.Configuration.Constants;
 using OpenID.Helpers;
+using System.Collections.Generic;
 
 namespace OpenID.Areas.Admin.Controllers
 {
@@ -58,7 +58,7 @@ namespace OpenID.Areas.Admin.Controllers
             ViewBag.Notifications = TempData[NotificationHelpers.NotificationKey];
             TempData.Remove(NotificationHelpers.NotificationKey);
         }
-        
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             GenerateNotifications();

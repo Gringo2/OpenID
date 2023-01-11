@@ -1,7 +1,7 @@
 ﻿namespace OpenID.AdminUI.Configuration
 {
-	public class HttpConfiguration
-	{
-		public string BasePath { get; set; } = "";
-	}
+    public class HttpConfiguration
+    {
+        public string BasePath { get; set; } = "";
+    }
 }
