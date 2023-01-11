@@ -3,11 +3,11 @@
 
 // Modified by Jan Škoruba
 
-using System.Linq;
 using AutoMapper;
 using IdentityServer4.EntityFramework.Entities;
 using OpenID.Dtos.Configuration;
 using OpenID.Extensions;
+using System.Linq;
 
 
 namespace OpenID.Mappers

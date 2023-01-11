@@ -1,12 +1,12 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using OpenID.Dtos.Identity.Base;
+﻿using OpenID.Dtos.Identity.Base;
 using OpenID.Dtos.Identity.Interfaces;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenID.Dtos.Identity
 {
     public class UserDto<TKey> : BaseUserDto<TKey>, IUserDto
-    {        
+    {
         [Required]
         [RegularExpression(@"^[a-zA-Z0-9_@\-\.\+]+$")]
         public string UserName { get; set; }

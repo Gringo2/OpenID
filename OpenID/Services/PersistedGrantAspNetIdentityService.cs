@@ -1,12 +1,10 @@
-﻿using System.Threading.Tasks;
-using OpenID.Dtos.Grant;
-using OpenID.Events.PersistedGrant;
+﻿using OpenID.Dtos.Grant;
 using OpenID.ExceptionHandling;
 using OpenID.Mappers;
 using OpenID.Repositories.Interfaces;
 using OpenID.Resources.Identity;
 using OpenID.Services.Interfaces;
-using Skoruba.AuditLogging.Services;
+using System.Threading.Tasks;
 
 namespace OpenID.Services
 {

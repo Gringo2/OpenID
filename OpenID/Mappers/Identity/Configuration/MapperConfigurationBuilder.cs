@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using OpenID.Dtos.Identity;
-using OpenID.Mappers.Identity;
 using OpenID.Mappers.Identity.Configuration;
+using System;
+using System.Collections.Generic;
 
 namespace OpenID.Mappers.Identity
 {

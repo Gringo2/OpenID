@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 using IdentityServer4.EntityFramework.Entities;
 using OpenID.Dtos.Configuration;
 using OpenID.Extensions;
+using System.Collections.Generic;
 
 
 namespace OpenID.Mappers

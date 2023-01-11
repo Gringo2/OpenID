@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using OpenID.Configuration.Identity;
+﻿using OpenID.Configuration.Identity;
+using System.Collections.Generic;
 
 
 namespace OpenID.Configuration.IdentityServer

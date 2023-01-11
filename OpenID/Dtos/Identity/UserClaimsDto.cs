@@ -1,5 +1,4 @@
-﻿using OpenID.Dtos.Identity;
-using OpenID.Dtos.Identity.Interfaces;
+﻿using OpenID.Dtos.Identity.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 

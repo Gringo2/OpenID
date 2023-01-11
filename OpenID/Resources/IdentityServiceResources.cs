@@ -31,7 +31,7 @@ namespace OpenID.Identity.Resources
                 Description = IdentityServiceResource.UserRoleCreateFailed
             };
         }
-    
+
         public virtual ResourceMessage UserProviderDoesNotExist()
         {
             return new ResourceMessage()

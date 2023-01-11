@@ -1,20 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using IdentityServer4.Models;
 using OpenID.Dtos.Common;
 using OpenID.Dtos.Configuration;
 using OpenID.Dtos.Enums;
-using OpenID.Events.Client;
 using OpenID.ExceptionHandling;
 using OpenID.Helpers;
 using OpenID.Mappers;
-using OpenID.Repositories;
 using OpenID.Repositories.Interfaces;
 using OpenID.Resources;
 using OpenID.Services.Interfaces;
-using Skoruba.AuditLogging.Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 
 namespace OpenID.Services

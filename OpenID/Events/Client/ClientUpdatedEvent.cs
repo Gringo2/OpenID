@@ -1,9 +1,9 @@
-﻿using Skoruba.AuditLogging.Events;
-using OpenID.Dtos.Configuration;
+﻿using OpenID.Dtos.Configuration;
+using Skoruba.AuditLogging.Events;
 
 namespace OpenID.Events.Client
 {
-    public class ClientUpdatedEvent: AuditEvent
+    public class ClientUpdatedEvent : AuditEvent
     {
         public ClientDto OriginalClient { get; set; }
         public ClientDto Client { get; set; }

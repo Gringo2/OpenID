@@ -1,19 +1,18 @@
 ﻿using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
+using OpenID.Constants;
+using OpenID.DbContexts.Interfaces;
+using OpenID.Extensions;
+using OpenID.Helpers;
+using OpenID.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System;
-using OpenID.Repositories.Interfaces;
-using System.Linq;
-using OpenID.Extensions;
-using OpenID.Constants;
-using OpenID.Helpers;
-using IdentityServer4.Models;
 using Client = IdentityServer4.EntityFramework.Entities.Client;
 using ClientClaim = IdentityServer4.EntityFramework.Entities.ClientClaim;
-using OpenID.DbContexts.Interfaces;
 
 namespace OpenID.Repositories
 {
@@ -314,97 +313,97 @@ namespace OpenID.Repositories
 
             return client.Id;
         }
-		public virtual async Task<int> CloneClientAsync(Client client,
-			bool cloneClientCorsOrigins = true,
-			bool cloneClientGrantTypes = true,
-			bool cloneClientIdPRestrictions = true,
-			bool cloneClientPostLogoutRedirectUris = true,
-			bool cloneClientScopes = true,
-			bool cloneClientRedirectUris = true,
-			bool cloneClientClaims = true,
-			bool cloneClientProperties = true
-			)
-		{
-			var clientToClone = await DbContext.Clients
-				.Include(x => x.AllowedGrantTypes)
-				.Include(x => x.RedirectUris)
-				.Include(x => x.PostLogoutRedirectUris)
-				.Include(x => x.AllowedScopes)
-				.Include(x => x.ClientSecrets)
-				.Include(x => x.Claims)
-				.Include(x => x.IdentityProviderRestrictions)
-				.Include(x => x.AllowedCorsOrigins)
-				.Include(x => x.Properties)
-				.AsNoTracking()
-				.FirstOrDefaultAsync(x => x.Id == client.Id);
+        public virtual async Task<int> CloneClientAsync(Client client,
+            bool cloneClientCorsOrigins = true,
+            bool cloneClientGrantTypes = true,
+            bool cloneClientIdPRestrictions = true,
+            bool cloneClientPostLogoutRedirectUris = true,
+            bool cloneClientScopes = true,
+            bool cloneClientRedirectUris = true,
+            bool cloneClientClaims = true,
+            bool cloneClientProperties = true
+            )
+        {
+            var clientToClone = await DbContext.Clients
+                .Include(x => x.AllowedGrantTypes)
+                .Include(x => x.RedirectUris)
+                .Include(x => x.PostLogoutRedirectUris)
+                .Include(x => x.AllowedScopes)
+                .Include(x => x.ClientSecrets)
+                .Include(x => x.Claims)
+                .Include(x => x.IdentityProviderRestrictions)
+                .Include(x => x.AllowedCorsOrigins)
+                .Include(x => x.Properties)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Id == client.Id);
 
-			clientToClone.ClientName = client.ClientName;
-			clientToClone.ClientId = client.ClientId;
+            clientToClone.ClientName = client.ClientName;
+            clientToClone.ClientId = client.ClientId;
 
-			//Clean original ids
-			clientToClone.Id = 0;
-			clientToClone.AllowedCorsOrigins.ForEach(x => x.Id = 0);
-			clientToClone.RedirectUris.ForEach(x => x.Id = 0);
-			clientToClone.PostLogoutRedirectUris.ForEach(x => x.Id = 0);
-			clientToClone.AllowedScopes.ForEach(x => x.Id = 0);
-			clientToClone.ClientSecrets.ForEach(x => x.Id = 0);
-			clientToClone.IdentityProviderRestrictions.ForEach(x => x.Id = 0);
-			clientToClone.Claims.ForEach(x => x.Id = 0);
-			clientToClone.AllowedGrantTypes.ForEach(x => x.Id = 0);
-			clientToClone.Properties.ForEach(x => x.Id = 0);
+            //Clean original ids
+            clientToClone.Id = 0;
+            clientToClone.AllowedCorsOrigins.ForEach(x => x.Id = 0);
+            clientToClone.RedirectUris.ForEach(x => x.Id = 0);
+            clientToClone.PostLogoutRedirectUris.ForEach(x => x.Id = 0);
+            clientToClone.AllowedScopes.ForEach(x => x.Id = 0);
+            clientToClone.ClientSecrets.ForEach(x => x.Id = 0);
+            clientToClone.IdentityProviderRestrictions.ForEach(x => x.Id = 0);
+            clientToClone.Claims.ForEach(x => x.Id = 0);
+            clientToClone.AllowedGrantTypes.ForEach(x => x.Id = 0);
+            clientToClone.Properties.ForEach(x => x.Id = 0);
 
-			//Client secret will be skipped
-			clientToClone.ClientSecrets.Clear();
+            //Client secret will be skipped
+            clientToClone.ClientSecrets.Clear();
 
-			if (!cloneClientCorsOrigins)
-			{
-				clientToClone.AllowedCorsOrigins.Clear();
-			}
+            if (!cloneClientCorsOrigins)
+            {
+                clientToClone.AllowedCorsOrigins.Clear();
+            }
 
-			if (!cloneClientGrantTypes)
-			{
-				clientToClone.AllowedGrantTypes.Clear();
-			}
+            if (!cloneClientGrantTypes)
+            {
+                clientToClone.AllowedGrantTypes.Clear();
+            }
 
-			if (!cloneClientIdPRestrictions)
-			{
-				clientToClone.IdentityProviderRestrictions.Clear();
-			}
+            if (!cloneClientIdPRestrictions)
+            {
+                clientToClone.IdentityProviderRestrictions.Clear();
+            }
 
-			if (!cloneClientPostLogoutRedirectUris)
-			{
-				clientToClone.PostLogoutRedirectUris.Clear();
-			}
+            if (!cloneClientPostLogoutRedirectUris)
+            {
+                clientToClone.PostLogoutRedirectUris.Clear();
+            }
 
-			if (!cloneClientScopes)
-			{
-				clientToClone.AllowedScopes.Clear();
-			}
+            if (!cloneClientScopes)
+            {
+                clientToClone.AllowedScopes.Clear();
+            }
 
-			if (!cloneClientRedirectUris)
-			{
-				clientToClone.RedirectUris.Clear();
-			}
+            if (!cloneClientRedirectUris)
+            {
+                clientToClone.RedirectUris.Clear();
+            }
 
-			if (!cloneClientClaims)
-			{
-				clientToClone.Claims.Clear();
-			}
+            if (!cloneClientClaims)
+            {
+                clientToClone.Claims.Clear();
+            }
 
-			if (!cloneClientProperties)
-			{
-				clientToClone.Properties.Clear();
-			}
+            if (!cloneClientProperties)
+            {
+                clientToClone.Properties.Clear();
+            }
 
-			await DbContext.Clients.AddAsync(clientToClone);
+            await DbContext.Clients.AddAsync(clientToClone);
 
-			await AutoSaveChangesAsync();
+            await AutoSaveChangesAsync();
 
-			var id = clientToClone.Id;
+            var id = clientToClone.Id;
 
-			return id;
-		}
-		private async Task RemoveClientRelationsAsync(Client client, bool updateClientClaims,
+            return id;
+        }
+        private async Task RemoveClientRelationsAsync(Client client, bool updateClientClaims,
             bool updateClientProperties)
         {
             //Remove old allowed scopes

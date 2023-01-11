@@ -5,7 +5,7 @@ namespace OpenID.ExceptionHandling
     public class UserFriendlyErrorPageException : Exception
     {
         public string ErrorKey { get; set; }
-        
+
         public UserFriendlyErrorPageException(string message) : base(message)
         {
         }

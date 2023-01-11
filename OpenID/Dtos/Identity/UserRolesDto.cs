@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using OpenID.Dtos.Common;
 using OpenID.Dtos.Identity.Base;
 using OpenID.Dtos.Identity.Interfaces;
-using OpenID.Dtos.Common;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenID.Dtos.Identity
 {
@@ -11,7 +11,7 @@ namespace OpenID.Dtos.Identity
     {
         public UserRolesDto()
         {
-           Roles = new List<TRoleDto>(); 
+            Roles = new List<TRoleDto>();
         }
 
         public string UserName { get; set; }

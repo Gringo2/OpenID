@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.Configuration;
 using SqlMigrationAssembly = OpenID.SqlServer.Helpers.MigrationAssembly;
 //using MySqlMigrationAssembly = Skoruba.IdentityServer4.Admin.EntityFramework.MySql.Helpers.MigrationAssembly;
 //using PostgreSQLMigrationAssembly = Skoruba.IdentityServer4.Admin.EntityFramework.PostgreSQL.Helpers.MigrationAssembly;

@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using IdentityServer4.EntityFramework.Storage;
+﻿using IdentityServer4.EntityFramework.Storage;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,6 +6,7 @@ using OpenID.Configuration;
 using OpenID.DbContexts.Interfaces;
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
+using System.Reflection;
 
 
 namespace OpenID.SqlServer

@@ -1,43 +1,30 @@
 ﻿using IdentityServer4.EntityFramework.Options;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
+using OpenID.AdminUI.Configuration;
+using OpenID.AdminUI.Configuration.Constants;
+using OpenID.Configuration;
+using OpenID.DbContexts.Interfaces;
+using OpenID.Dtos.Identity;
+using OpenID.ExceptionHandling;
+using OpenID.SqlServer;
 using Skoruba.AuditLogging.EntityFramework.DbContexts;
 using Skoruba.AuditLogging.EntityFramework.Entities;
 using Skoruba.AuditLogging.EntityFramework.Extensions;
-using Skoruba.AuditLogging.EntityFramework.Repositories;
 using Skoruba.AuditLogging.EntityFramework.Services;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.AspNetCore.Hosting;
-
-using Microsoft.AspNetCore.Authorization;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.Configuration;
-using OpenID.AdminUI.Configuration;
-using OpenID.Configuration;
-using OpenID.DbContexts.Interfaces;
-using OpenID.SqlServer;
-using OpenID.AdminUI.Configuration.Constants;
-using OpenID.ExceptionHandling;
-using OpenID.Dtos.Identity;
-using OpenID.AdminUI.Configuration.ApplicationParts;
 
 namespace OpenID.Helpers
 {
@@ -246,30 +233,30 @@ namespace OpenID.Helpers
         {
             services.AddSingleton<ITempDataProvider, CookieTempDataProvider>();
 
-//            services.AddLocalization(opts => { opts.ResourcesPath = ConfigurationConsts.ResourcesPath; });
+            //            services.AddLocalization(opts => { opts.ResourcesPath = ConfigurationConsts.ResourcesPath; });
 
-//            services.TryAddTransient(typeof(IGenericControllerLocalizer<>), typeof(GenericControllerLocalizer<>));
+            //            services.TryAddTransient(typeof(IGenericControllerLocalizer<>), typeof(GenericControllerLocalizer<>));
 
-//            services.AddTransient<IViewLocalizer, ResourceViewLocalizer>();
+            //            services.AddTransient<IViewLocalizer, ResourceViewLocalizer>();
 
-//            services.AddControllersWithViews(o =>
-//                {
-//                    o.Conventions.Add(new GenericControllerRouteConvention());
-//                })
-//#if DEBUG
-//                // It is not necessary to re-build the views for new changes
-//                .AddRazorRuntimeCompilation()
-//#endif
-//                .AddViewLocalization(
-//                    LanguageViewLocationExpanderFormat.Suffix,
-//                    opts => { opts.ResourcesPath = ConfigurationConsts.ResourcesPath; })
-//                .AddDataAnnotationsLocalization()
-//                .ConfigureApplicationPartManager(m =>
-//                {
-//                    m.FeatureProviders.Add(new GenericTypeControllerFeatureProvider<TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken,
-//                        TUsersDto, TRolesDto, TUserRolesDto, TUserClaimsDto,
-//                        TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto, TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>());
-//                });
+            //            services.AddControllersWithViews(o =>
+            //                {
+            //                    o.Conventions.Add(new GenericControllerRouteConvention());
+            //                })
+            //#if DEBUG
+            //                // It is not necessary to re-build the views for new changes
+            //                .AddRazorRuntimeCompilation()
+            //#endif
+            //                .AddViewLocalization(
+            //                    LanguageViewLocationExpanderFormat.Suffix,
+            //                    opts => { opts.ResourcesPath = ConfigurationConsts.ResourcesPath; })
+            //                .AddDataAnnotationsLocalization()
+            //                .ConfigureApplicationPartManager(m =>
+            //                {
+            //                    m.FeatureProviders.Add(new GenericTypeControllerFeatureProvider<TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken,
+            //                        TUsersDto, TRolesDto, TUserRolesDto, TUserClaimsDto,
+            //                        TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto, TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>());
+            //                });
 
             services.Configure<RequestLocalizationOptions>(
                 opts =>
@@ -296,29 +283,29 @@ namespace OpenID.Helpers
                 });
         }
 
-        public static void AddAuthenticationServicesStaging<TContext, TUserIdentity, TUserIdentityRole>(
-            this IServiceCollection services)
-            where TContext : DbContext where TUserIdentity : class where TUserIdentityRole : class
-        {
-            services.AddIdentity<TUserIdentity, TUserIdentityRole>(options =>
-            {
-                options.User.RequireUniqueEmail = true;
-            })
-                .AddEntityFrameworkStores<TContext>()
-                .AddDefaultTokenProviders();
+        //public static void AddAuthenticationServicesStaging<TContext, TUserIdentity, TUserIdentityRole>(
+        //    this IServiceCollection services)
+        //    where TContext : DbContext where TUserIdentity : class where TUserIdentityRole : class
+        //{
+        //    services.AddIdentity<TUserIdentity, TUserIdentityRole>(options =>
+        //    {
+        //        options.User.RequireUniqueEmail = true;
+        //    })
+        //        .AddEntityFrameworkStores<TContext>()
+        //        .AddDefaultTokenProviders();
 
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //    services.AddAuthentication(options =>
+        //    {
+        //        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
-        }
+        //        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //    })
+        //        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+        //}
 
         /// <summary>
         /// Register services for authentication, including Identity.
@@ -330,75 +317,75 @@ namespace OpenID.Helpers
         /// <typeparam name="TUserIdentityRole"></typeparam>
         /// <param name="services"></param>
         /// <param name="adminConfiguration"></param>
-        public static void AddAuthenticationServices<TContext, TUserIdentity, TUserIdentityRole>(this IServiceCollection services,
-            AdminConfiguration adminConfiguration, Action<IdentityOptions> identityOptionsAction, Action<AuthenticationBuilder> authenticationBuilderAction)
-            where TContext : DbContext where TUserIdentity : class where TUserIdentityRole : class
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
-                options.Secure = CookieSecurePolicy.SameAsRequest;
-                options.OnAppendCookie = cookieContext =>
-                    AuthenticationHelpers.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-                options.OnDeleteCookie = cookieContext =>
-                    AuthenticationHelpers.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
-            });
+        //public static void AddAuthenticationServices<TContext, TUserIdentity, TUserIdentityRole>(this IServiceCollection services,
+        //    AdminConfiguration adminConfiguration, Action<IdentityOptions> identityOptionsAction, Action<AuthenticationBuilder> authenticationBuilderAction)
+        //    where TContext : DbContext where TUserIdentity : class where TUserIdentityRole : class
+        //{
+        //    services.Configure<CookiePolicyOptions>(options =>
+        //    {
+        //        options.MinimumSameSitePolicy = SameSiteMode.Unspecified;
+        //        options.Secure = CookieSecurePolicy.SameAsRequest;
+        //        options.OnAppendCookie = cookieContext =>
+        //            AuthenticationHelpers.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+        //        options.OnDeleteCookie = cookieContext =>
+        //            AuthenticationHelpers.CheckSameSite(cookieContext.Context, cookieContext.CookieOptions);
+        //    });
 
-            services
-                .AddIdentity<TUserIdentity, TUserIdentityRole>(identityOptionsAction)
-                .AddEntityFrameworkStores<TContext>()
-                .AddDefaultTokenProviders();
+        //    services
+        //        .AddIdentity<TUserIdentity, TUserIdentityRole>(identityOptionsAction)
+        //        .AddEntityFrameworkStores<TContext>()
+        //        .AddDefaultTokenProviders();
 
-            var authenticationBuilder = services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = AuthenticationConsts.OidcAuthenticationScheme;
+        //    var authenticationBuilder = services.AddAuthentication(options =>
+        //    {
+        //        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultChallengeScheme = AuthenticationConsts.OidcAuthenticationScheme;
 
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-                    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
-                        options =>
-                        {
-                            options.Cookie.Name = adminConfiguration.IdentityAdminCookieName;
-                        })
-                    .AddOpenIdConnect(AuthenticationConsts.OidcAuthenticationScheme, options =>
-                    {
-                        options.Authority = adminConfiguration.IdentityServerBaseUrl;
-                        options.RequireHttpsMetadata = adminConfiguration.RequireHttpsMetadata;
-                        options.ClientId = adminConfiguration.ClientId;
-                        options.ClientSecret = adminConfiguration.ClientSecret;
-                        options.ResponseType = adminConfiguration.OidcResponseType;
+        //        options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //        options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+        //    })
+        //            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+        //                options =>
+        //                {
+        //                    options.Cookie.Name = adminConfiguration.IdentityAdminCookieName;
+        //                })
+        //            .AddOpenIdConnect(AuthenticationConsts.OidcAuthenticationScheme, options =>
+        //            {
+        //                options.Authority = adminConfiguration.IdentityServerBaseUrl;
+        //                options.RequireHttpsMetadata = adminConfiguration.RequireHttpsMetadata;
+        //                options.ClientId = adminConfiguration.ClientId;
+        //                options.ClientSecret = adminConfiguration.ClientSecret;
+        //                options.ResponseType = adminConfiguration.OidcResponseType;
 
-                        options.Scope.Clear();
-                        foreach (var scope in adminConfiguration.Scopes)
-                        {
-                            options.Scope.Add(scope);
-                        }
+        //                options.Scope.Clear();
+        //                foreach (var scope in adminConfiguration.Scopes)
+        //                {
+        //                    options.Scope.Add(scope);
+        //                }
 
-                        options.ClaimActions.MapJsonKey(adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole);
+        //                options.ClaimActions.MapJsonKey(adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole, adminConfiguration.TokenValidationClaimRole);
 
-                        options.SaveTokens = true;
+        //                options.SaveTokens = true;
 
-                        options.GetClaimsFromUserInfoEndpoint = true;
+        //                options.GetClaimsFromUserInfoEndpoint = true;
 
-                        options.TokenValidationParameters = new TokenValidationParameters
-                        {
-                            NameClaimType = adminConfiguration.TokenValidationClaimName,
-                            RoleClaimType = adminConfiguration.TokenValidationClaimRole
-                        };
+        //                options.TokenValidationParameters = new TokenValidationParameters
+        //                {
+        //                    NameClaimType = adminConfiguration.TokenValidationClaimName,
+        //                    RoleClaimType = adminConfiguration.TokenValidationClaimRole
+        //                };
 
-                        options.Events = new OpenIdConnectEvents
-                        {
-                            OnMessageReceived = context => OnMessageReceived(context, adminConfiguration),
-                            OnRedirectToIdentityProvider = context => OnRedirectToIdentityProvider(context, adminConfiguration)
-                        };
-                    });
+        //                options.Events = new OpenIdConnectEvents
+        //                {
+        //                    OnMessageReceived = context => OnMessageReceived(context, adminConfiguration),
+        //                    OnRedirectToIdentityProvider = context => OnRedirectToIdentityProvider(context, adminConfiguration)
+        //                };
+        //            });
 
-            authenticationBuilderAction?.Invoke(authenticationBuilder);
-        }
+        //    authenticationBuilderAction?.Invoke(authenticationBuilder);
+        //}
 
 
         private static Task OnMessageReceived(MessageReceivedContext context, AdminConfiguration adminConfiguration)
@@ -415,7 +402,7 @@ namespace OpenID.Helpers
             {
                 context.ProtocolMessage.RedirectUri = adminConfiguration.IdentityAdminRedirectUri;
             }
-            
+
             return Task.CompletedTask;
         }
 
@@ -604,16 +591,16 @@ namespace OpenID.Helpers
             app.ConfigureLocalization();
         }
 
-		//public static void UseRoutingDependentMiddleware(this IApplicationBuilder app, TestingConfiguration testingConfiguration)
-		//{
-		//    app.UseAuthentication();
-		//    if (testingConfiguration.IsStaging)
-		//    {
-		//        app.UseMiddleware<AuthenticatedTestRequestMiddleware>();
-		//    }
+        //public static void UseRoutingDependentMiddleware(this IApplicationBuilder app, TestingConfiguration testingConfiguration)
+        //{
+        //    app.UseAuthentication();
+        //    if (testingConfiguration.IsStaging)
+        //    {
+        //        app.UseMiddleware<AuthenticatedTestRequestMiddleware>();
+        //    }
 
-		//    app.UseAuthorization();
-		//}
-		
-	}
+        //    app.UseAuthorization();
+        //}
+
+    }
 }

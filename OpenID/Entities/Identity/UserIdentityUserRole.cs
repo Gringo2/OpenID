@@ -4,6 +4,6 @@ namespace OpenID.Entities.Identity
 {
     public class UserIdentityUserRole : IdentityUserRole<string>
     {
-        
+
     }
 }

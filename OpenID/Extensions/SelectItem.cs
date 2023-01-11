@@ -1,15 +1,15 @@
 ﻿namespace OpenID.Extensions
 {
-	public class SelectItem
-	{
-		public SelectItem(string id, string text)
-		{
-			Id = id;
-			Text = text;
-		}
+    public class SelectItem
+    {
+        public SelectItem(string id, string text)
+        {
+            Id = id;
+            Text = text;
+        }
 
-		public string Id { get; set; }
+        public string Id { get; set; }
 
-		public string Text { get; set; }
-	}
+        public string Text { get; set; }
+    }
 }

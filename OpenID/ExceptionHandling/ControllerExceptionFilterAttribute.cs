@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using OpenID.Helpers;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenID.ExceptionHandling
 {
@@ -94,7 +94,7 @@ namespace OpenID.ExceptionHandling
                 context.ModelState.AddModelError(userFriendlyViewException.ErrorKey, context.Exception.Message);
             }
         }
-        
+
         protected void CreateNotification(NotificationHelpers.AlertType type, ITempDataDictionary tempData, string message, string title = "")
         {
             var toast = new NotificationHelpers.Alert

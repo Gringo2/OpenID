@@ -2,8 +2,8 @@
 
 namespace OpenID.Entities.Identity
 {
-	public class UserIdentityRole : IdentityRole
-	{
-		
-	}
+    public class UserIdentityRole : IdentityRole
+    {
+
+    }
 }

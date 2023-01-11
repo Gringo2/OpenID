@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using OpenID.Dtos.Identity.Base;
+﻿using OpenID.Dtos.Identity.Base;
 using OpenID.Dtos.Identity.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 
 namespace OpenID.Dtos.Identity

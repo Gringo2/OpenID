@@ -5,6 +5,6 @@ namespace OpenID.Shared.Dtos.Identity
 {
     public class IdentityUserClaimsDto : UserClaimsDto<IdentityUserClaimDto, string>
     {
-        
+
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using OpenID.Extensions;
+﻿using OpenID.Extensions;
+using System.Collections.Generic;
 
 namespace OpenID.Constants
 {
@@ -64,14 +64,14 @@ namespace OpenID.Constants
         {
             var signingAlgorithms = new List<string>
             {
-                "RS256", 
-                "RS384", 
-                "RS512", 
-                "PS256", 
-                "PS384", 
-                "PS512", 
-                "ES256", 
-                "ES384", 
+                "RS256",
+                "RS384",
+                "RS512",
+                "PS256",
+                "PS384",
+                "PS512",
+                "ES256",
+                "ES384",
                 "ES512"
             };
 

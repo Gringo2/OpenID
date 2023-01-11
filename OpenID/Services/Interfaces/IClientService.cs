@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using IdentityServer4.EntityFramework.Entities;
-using OpenID.Dtos.Common;
+﻿using OpenID.Dtos.Common;
 using OpenID.Dtos.Configuration;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace OpenID.Services.Interfaces
 {

@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using OpenID.Entities.Identity;
 @using OpenID.Models
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<UserIdentity> SignInManager
+@inject UserManager<UserIdentity> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

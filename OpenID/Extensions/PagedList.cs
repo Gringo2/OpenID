@@ -2,7 +2,7 @@
 
 namespace OpenID.Extensions
 {
-    public class PagedList<T> where T : class 
+    public class PagedList<T> where T : class
     {
         public PagedList()
         {

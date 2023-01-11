@@ -1,5 +1,5 @@
-﻿using System;
-using Skoruba.AuditLogging.Events;
+﻿using Skoruba.AuditLogging.Events;
+using System;
 
 namespace OpenID.Events.Client
 {

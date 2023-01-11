@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Extensions;
 
 namespace OpenID.AdminUI.Helpers
 {
@@ -10,7 +10,7 @@ namespace OpenID.AdminUI.Helpers
     {
         public static int GetTotalPages(int pageSize, int totalCount)
         {
-            return (int) Math.Ceiling((double) totalCount / pageSize);
+            return (int)Math.Ceiling((double)totalCount / pageSize);
         }
 
         public static bool IsActivePage(int currentPage, int currentIteration)
@@ -51,7 +51,7 @@ namespace OpenID.AdminUI.Helpers
 
         public static int GetMaxPage(int maxPages, int totalPages, int currentPage)
         {
-            var result = (int) Math.Ceiling((double) currentPage / maxPages);
+            var result = (int)Math.Ceiling((double)currentPage / maxPages);
             return result * maxPages;
         }
 
@@ -85,7 +85,7 @@ namespace OpenID.AdminUI.Helpers
             var queryString = context.Request.QueryString.Value;
             var queryDictionary = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(queryString);
             var items = queryDictionary.SelectMany(x => x.Value, (col, value) => new KeyValuePair<string, string>(col.Key, value)).ToList();
-            
+
             // Remove existing page key
             items.RemoveAll(x => x.Key == pageKey);
 

@@ -13,17 +13,17 @@ namespace OpenID.Repositories.Interfaces
 
         Task<int> RemoveClientAsync(Client client);
 
-		Task<int> CloneClientAsync(Client client,
-		   bool cloneClientCorsOrigins = true,
-		   bool cloneClientGrantTypes = true,
-		   bool cloneClientIdPRestrictions = true,
-		   bool cloneClientPostLogoutRedirectUris = true,
-		   bool cloneClientScopes = true,
-		   bool cloneClientRedirectUris = true,
-		   bool cloneClientClaims = true,
-		   bool cloneClientProperties = true);
+        Task<int> CloneClientAsync(Client client,
+           bool cloneClientCorsOrigins = true,
+           bool cloneClientGrantTypes = true,
+           bool cloneClientIdPRestrictions = true,
+           bool cloneClientPostLogoutRedirectUris = true,
+           bool cloneClientScopes = true,
+           bool cloneClientRedirectUris = true,
+           bool cloneClientClaims = true,
+           bool cloneClientProperties = true);
 
-		Task<bool> CanInsertClientAsync(Client client, bool isCloned = false);
+        Task<bool> CanInsertClientAsync(Client client, bool isCloned = false);
 
         Task<Client> GetClientAsync(int clientId);
 

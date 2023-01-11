@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using OpenID.Dtos.Grant;
+﻿using OpenID.Dtos.Grant;
+using System.Threading.Tasks;
 
 namespace OpenID.Services.Interfaces
 {

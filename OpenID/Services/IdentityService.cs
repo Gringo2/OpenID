@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using OpenId.Identity.Resources;
 using OpenID.Dtos.Common;
 using OpenID.Dtos.Identity;
-using OpenID.Events.Identity;
 using OpenID.ExceptionHandling;
 using OpenID.Extensions;
 using OpenID.Repositories.Interfaces;
 using OpenID.Services.Interfaces;
-using Skoruba.AuditLogging.Services;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 namespace OpenID.Identity.Services
@@ -57,7 +55,7 @@ namespace OpenID.Identity.Services
             IdentityRepository = identityRepository;
             IdentityServiceResources = identityServiceResources;
             Mapper = mapper;
-         
+
         }
 
         public virtual async Task<bool> ExistsUserAsync(string userId)

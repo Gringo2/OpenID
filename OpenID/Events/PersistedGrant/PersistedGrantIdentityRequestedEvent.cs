@@ -1,5 +1,5 @@
-﻿using Skoruba.AuditLogging.Events;
-using OpenID.Dtos.Grant;
+﻿using OpenID.Dtos.Grant;
+using Skoruba.AuditLogging.Events;
 
 namespace OpenID.Events.PersistedGrant
 {

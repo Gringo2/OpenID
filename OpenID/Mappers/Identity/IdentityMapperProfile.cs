@@ -3,13 +3,13 @@
 
 // Modified by Jan Škoruba
 
-using System;
-using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using OpenID.Dtos.Identity;
 using OpenID.ExceptionHandling;
 using OpenID.Extensions;
+using System;
+using System.Collections.Generic;
 
 namespace OpenID.Mappers.Identity
 {
@@ -79,7 +79,7 @@ namespace OpenID.Mappers.Identity
             CreateMap<PagedList<TUserClaim>, TUserClaimsDto>(MemberList.Destination)
                 .ForMember(x => x.Claims,
                     opt => opt.MapFrom(src => src.Data));
-            
+
             CreateMap<PagedList<TRoleClaim>, TRoleClaimsDto>(MemberList.Destination)
                 .ForMember(x => x.Claims,
                     opt => opt.MapFrom(src => src.Data));

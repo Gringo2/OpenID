@@ -1,8 +1,8 @@
 ﻿namespace OpenID.Helpers
 {
-	public enum HashType
-	{
-		Sha256,
-		Sha512
-	}
+    public enum HashType
+    {
+        Sha256,
+        Sha512
+    }
 }

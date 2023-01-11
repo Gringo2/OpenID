@@ -4,6 +4,6 @@ namespace OpenID.Shared.Dtos.Identity
 {
     public class IdentityUserProviderDto : UserProviderDto<string>
     {
-        
+
     }
 }

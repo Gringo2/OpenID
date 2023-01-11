@@ -2,7 +2,6 @@
 using OpenID.Dtos.Log;
 using OpenID.Entities;
 using OpenID.Extensions;
-using OpenID.Mappers;
 using Skoruba.AuditLogging.EntityFramework.Entities;
 
 

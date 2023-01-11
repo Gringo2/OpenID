@@ -3,11 +3,11 @@
 
 // Modified by Jan Škoruba
 
-using System.Linq;
 using AutoMapper;
 using IdentityServer4.EntityFramework.Entities;
 using OpenID.Dtos.Configuration;
 using OpenID.Extensions;
+using System.Linq;
 
 
 namespace OpenID.Mappers
@@ -19,7 +19,7 @@ namespace OpenID.Mappers
             // entity to model
             CreateMap<ApiScope, ApiScopeDto>(MemberList.Destination)
                 .ForMember(x => x.UserClaims, opt => opt.MapFrom(src => src.UserClaims.Select(x => x.Type)));
-            
+
             CreateMap<ApiScopeProperty, ApiScopePropertyDto>(MemberList.Destination)
                 .ReverseMap();
 

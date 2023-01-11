@@ -12,7 +12,7 @@ namespace OpenID.Mappers
         {
             CreateMap<Log, LogDto>(MemberList.Destination)
                 .ReverseMap();
-            
+
             CreateMap<PagedList<Log>, LogsDto>(MemberList.Destination)
                 .ForMember(x => x.Logs, opt => opt.MapFrom(src => src.Data));
 
