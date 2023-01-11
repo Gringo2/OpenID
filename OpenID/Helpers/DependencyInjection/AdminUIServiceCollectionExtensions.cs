@@ -125,36 +125,6 @@ namespace Microsoft.Extensions.DependencyInjection
                 //    TDataProtectionDbContext, TAuditLog>();
             }
             
-            // Save data protection keys to db, using a common application name shared between Admin and STS
-            //services.AddDataProtection<TDataProtectionDbContext>(options.DataProtection, options.AzureKeyVault);
-
-            // Add Asp.Net Core Identity Configuration and OpenIdConnect auth as well
-            //if (!options.Testing.IsStaging)
-            //{
-            //    services.AddAuthenticationServices<TIdentityDbContext, TUser, TRole>
-            //            (options.Admin, options.IdentityConfigureAction, options.Security.AuthenticationBuilderAction);
-            //}
-            //else
-            //{
-            //    services.AddAuthenticationServicesStaging<TIdentityDbContext, TUser, TRole>();
-            //}
-
-            // Add HSTS options
-            //if (options.Security.UseHsts)
-            //{
-            //    services.AddHsts(opt =>
-            //    {
-            //        opt.Preload = true;
-            //        opt.IncludeSubDomains = true;
-            //        opt.MaxAge = TimeSpan.FromDays(365);
-
-            //        options.Security.HstsConfigureAction?.Invoke(opt);
-            //    });
-            //}
-
-            // Add exception filters in MVC
-            //services.AddMvcExceptionFilters();
-
             // Add all dependencies for IdentityServer Admin
             services.AddAdminServices<TIdentityServerDbContext, TPersistedGrantDbContext, TLogDbContext>();
 
@@ -164,35 +134,8 @@ namespace Microsoft.Extensions.DependencyInjection
             //    TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim,
             //    TUserRole, TUserLogin, TRoleClaim, TUserToken, TUsersDto, TRolesDto, TUserRolesDto,
             //    TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
-            //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();
-
-            // Add all dependencies for Asp.Net Core Identity in MVC - these dependencies are injected into generic Controllers
-            // Including settings for MVC and Localization
-            //services.AddMvcWithLocalization<TUserDto, TRoleDto,
-            //    TUser, TRole, TKey, TUserClaim, TUserRole,
-            //    TUserLogin, TRoleClaim, TUserToken,
-            //    TUsersDto, TRolesDto, TUserRolesDto,
-            //    TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
-            //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>(options.Culture);
-
-            //// Add authorization policies for MVC
-            //services.AddAuthorizationPolicies(options.Admin, options.Security.AuthorizationConfigureAction);
-
-            //// Add audit logging
-            //services.AddAuditEventLogging<TAuditLogDbContext, TAuditLog>(options.AuditLogging);
-
-            // Add health checks.
-            //var healthChecksBuilder = options.HealthChecksBuilderFactory?.Invoke(services) ?? services.AddHealthChecks();
-            //healthChecksBuilder.AddIdSHealthChecks<TIdentityServerDbContext, TPersistedGrantDbContext,
-            //    TIdentityDbContext, TLogDbContext, TAuditLogDbContext,
-            //    TDataProtectionDbContext, TAuditLog>(options.Admin, options.ConnectionStrings, options.DatabaseProvider);
-
-            // Adds a startup filter for further middleware configuration.
-            //services.AddSingleton(options.Testing);
-            //services.AddSingleton(options.Security);
-            //services.AddSingleton(options.Http);
-            //services.AddTransient<IStartupFilter, StartupFilter>();
-
+            //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();       
+            
             return services;
         }
     }
