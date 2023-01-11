@@ -5,7 +5,6 @@ using OpenID.AdminUI.Configuration.Constants;
 using System;
 using Skoruba.IdentityServer4.Admin.EntityFramework.Configuration.Configuration;
 using OpenID.Configuration;
-using OpenID.Configuration.Common;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -37,11 +36,6 @@ namespace Microsoft.Extensions.DependencyInjection
 		public DatabaseMigrationsConfiguration DatabaseMigrations { get; set; } = new DatabaseMigrationsConfiguration();
 
 		/// <summary>
-		/// The settings for audit logging.
-		/// </summary>
-		//public AuditLoggingConfiguration AuditLogging { get; set; } = new AuditLoggingConfiguration();
-
-		/// <summary>
 		/// The settings for globalization.
 		/// </summary>
 		public CultureConfiguration Culture { get; set; } = new CultureConfiguration();
@@ -50,16 +44,6 @@ namespace Microsoft.Extensions.DependencyInjection
 		/// An action to configure ASP.NET Core Identity.
 		/// </summary>
 		public Action<IdentityOptions> IdentityConfigureAction { get; set; } = options => { };
-
-		/// <summary>
-		/// The settings for data protection.
-		/// </summary>
-		//public DataProtectionConfiguration DataProtection { get; set; } = new DataProtectionConfiguration();
-
-		/// <summary>
-		/// The settings for Azure key vault.
-		/// </summary>
-		//public AzureKeyVaultConfiguration AzureKeyVault { get; set; } = new AzureKeyVaultConfiguration();
 
 		/// <summary>
 		/// Identity data to seed the databases.
