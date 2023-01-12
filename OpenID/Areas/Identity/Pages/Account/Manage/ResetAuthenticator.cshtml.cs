@@ -12,13 +12,13 @@ namespace OpenID.Areas.Identity.Pages.Account.Manage
 {
     public class ResetAuthenticatorModel : PageModel
     {
-        UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        UserManager<UserIdentity> _userManager;
+        private readonly SignInManager<UserIdentity> _signInManager;
         ILogger<ResetAuthenticatorModel> _logger;
 
         public ResetAuthenticatorModel(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<UserIdentity> userManager,
+            SignInManager<UserIdentity> signInManager,
             ILogger<ResetAuthenticatorModel> logger)
         {
             _userManager = userManager;
