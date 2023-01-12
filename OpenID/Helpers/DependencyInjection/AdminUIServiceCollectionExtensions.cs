@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class AdminUIServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds the Skoruba IdentityServer4 Admin UI with the default entity model.
+        /// Adds IdentityServer4 Admin UI with the default entity model.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="optionsAction"></param>
@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 UserChangePasswordDto<string>, RoleClaimsDto<RoleClaimDto<string>, string>, UserClaimDto<string>, RoleClaimDto<string>>(services, optionsAction);
 
         /// <summary>
-        /// Adds the Skoruba IdentityServer4 Admin UI with a custom user model and database context.
+        /// Adds IdentityServer4 Admin UI with a custom user model and database context.
         /// </summary>
         /// <typeparam name="TIdentityDbContext"></typeparam>
         /// <typeparam name="TUser"></typeparam>
@@ -64,7 +64,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 UserChangePasswordDto<string>, RoleClaimsDto<RoleClaimDto<string>, string>, UserClaimDto<string>, RoleClaimDto<string>>(services, optionsAction);
 
         /// <summary>
-        /// Adds the Skoruba IdentityServer4 Admin UI with a fully custom entity model and database contexts.
+        /// Adds IdentityServer4 Admin UI with a fully custom entity model and database contexts.
         /// </summary>
         /// <param name="services"></param>
         /// <param name="optionsAction"></param>
@@ -107,56 +107,25 @@ namespace Microsoft.Extensions.DependencyInjection
             optionsAction(options);
 
             // Adds root configuration to the DI.
-            services.AddSingleton(options.Admin);
-            services.AddSingleton(options.IdentityServerData);
-            services.AddSingleton(options.IdentityData);
+            //services.AddSingleton(options.Admin);
+            //services.AddSingleton(options.IdentityServerData);
+            //services.AddSingleton(options.IdentityData);
 
             // Add DbContexts for Asp.Net Core Identity, Logging and IdentityServer - Configuration store and Operational store
             if (!options.Testing.IsStaging)
             {
                 services.RegisterDbContexts<TIdentityDbContext, TIdentityServerDbContext,
-                    TPersistedGrantDbContext, TLogDbContext, TAuditLogDbContext,
-                    TDataProtectionDbContext, TAuditLog>(options.ConnectionStrings, options.DatabaseProvider, options.DatabaseMigrations);
+                    TPersistedGrantDbContext>(options.ConnectionStrings, options.DatabaseProvider, options.DatabaseMigrations);
             }
             else
             {
-                //services.RegisterDbContextsStaging<TIdentityDbContext, TIdentityServerDbContext,
-                //    TPersistedGrantDbContext, TLogDbContext, TAuditLogDbContext,
-                //    TDataProtectionDbContext, TAuditLog>();
+                services.RegisterDbContexts<TIdentityDbContext, TIdentityServerDbContext,
+                    TPersistedGrantDbContext>(options.ConnectionStrings, options.DatabaseProvider, options.DatabaseMigrations);
+
             }
             
-            // Save data protection keys to db, using a common application name shared between Admin and STS
-            //services.AddDataProtection<TDataProtectionDbContext>(options.DataProtection, options.AzureKeyVault);
-
-            // Add Asp.Net Core Identity Configuration and OpenIdConnect auth as well
-            //if (!options.Testing.IsStaging)
-            //{
-            //    services.AddAuthenticationServices<TIdentityDbContext, TUser, TRole>
-            //            (options.Admin, options.IdentityConfigureAction, options.Security.AuthenticationBuilderAction);
-            //}
-            //else
-            //{
-            //    services.AddAuthenticationServicesStaging<TIdentityDbContext, TUser, TRole>();
-            //}
-
-            // Add HSTS options
-            //if (options.Security.UseHsts)
-            //{
-            //    services.AddHsts(opt =>
-            //    {
-            //        opt.Preload = true;
-            //        opt.IncludeSubDomains = true;
-            //        opt.MaxAge = TimeSpan.FromDays(365);
-
-            //        options.Security.HstsConfigureAction?.Invoke(opt);
-            //    });
-            //}
-
-            // Add exception filters in MVC
-            //services.AddMvcExceptionFilters();
-
             // Add all dependencies for IdentityServer Admin
-            services.AddAdminServices<TIdentityServerDbContext, TPersistedGrantDbContext, TLogDbContext>();
+            services.AddAdminServices<TIdentityServerDbContext, TPersistedGrantDbContext>();
 
             // Add all dependencies for Asp.Net Core Identity
             // If you want to change primary keys or use another db model for Asp.Net Core Identity:
@@ -166,32 +135,7 @@ namespace Microsoft.Extensions.DependencyInjection
             //    TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
             //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();
 
-            // Add all dependencies for Asp.Net Core Identity in MVC - these dependencies are injected into generic Controllers
-            // Including settings for MVC and Localization
-            //services.AddMvcWithLocalization<TUserDto, TRoleDto,
-            //    TUser, TRole, TKey, TUserClaim, TUserRole,
-            //    TUserLogin, TRoleClaim, TUserToken,
-            //    TUsersDto, TRolesDto, TUserRolesDto,
-            //    TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
-            //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>(options.Culture);
-
-            //// Add authorization policies for MVC
-            //services.AddAuthorizationPolicies(options.Admin, options.Security.AuthorizationConfigureAction);
-
-            //// Add audit logging
-            //services.AddAuditEventLogging<TAuditLogDbContext, TAuditLog>(options.AuditLogging);
-
-            // Add health checks.
-            //var healthChecksBuilder = options.HealthChecksBuilderFactory?.Invoke(services) ?? services.AddHealthChecks();
-            //healthChecksBuilder.AddIdSHealthChecks<TIdentityServerDbContext, TPersistedGrantDbContext,
-            //    TIdentityDbContext, TLogDbContext, TAuditLogDbContext,
-            //    TDataProtectionDbContext, TAuditLog>(options.Admin, options.ConnectionStrings, options.DatabaseProvider);
-
-            // Adds a startup filter for further middleware configuration.
-            //services.AddSingleton(options.Testing);
-            //services.AddSingleton(options.Security);
-            //services.AddSingleton(options.Http);
-            //services.AddTransient<IStartupFilter, StartupFilter>();
+            
 
             return services;
         }

@@ -13,16 +13,15 @@ namespace Microsoft.Extensions.DependencyInjection
 	{
 		public static IServiceCollection AddAdminServices<TAdminDbContext>(
 			this IServiceCollection services)
-			where TAdminDbContext : DbContext, IAdminPersistedGrantDbContext, IAdminConfigurationDbContext, IAdminLogDbContext
+			where TAdminDbContext : DbContext, IAdminPersistedGrantDbContext, IAdminConfigurationDbContext
 		{
 
-			return services.AddAdminServices<TAdminDbContext, TAdminDbContext, TAdminDbContext>();
+			return services.AddAdminServices<TAdminDbContext, TAdminDbContext>();
 		}
 
-		public static IServiceCollection AddAdminServices<TConfigurationDbContext, TPersistedGrantDbContext, TLogDbContext>(this IServiceCollection services)
+		public static IServiceCollection AddAdminServices<TConfigurationDbContext, TPersistedGrantDbContext>(this IServiceCollection services)
 			where TPersistedGrantDbContext : DbContext, IAdminPersistedGrantDbContext
 			where TConfigurationDbContext : DbContext, IAdminConfigurationDbContext
-			where TLogDbContext : DbContext, IAdminLogDbContext
 		{
 			//Repositories
 			services.AddTransient<IClientRepository, ClientRepository<TConfigurationDbContext>>();
