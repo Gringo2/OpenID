@@ -51,11 +51,11 @@ namespace OpenID
 			var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<AdminIdentityDbContext>(options =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<UserIdentity, IdentityRole>()
+                .AddEntityFrameworkStores<AdminIdentityDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
 			
@@ -68,7 +68,7 @@ namespace OpenID
 
                 // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
                 options.EmitStaticAudienceClaim = true;
-            }).AddAspNetIdentity<ApplicationUser>()
+            }).AddAspNetIdentity<UserIdentity>()
                  // this adds the config data from DB (clients, resources, CORS)
                 .AddConfigurationStore(options =>
                 {
@@ -104,7 +104,6 @@ namespace OpenID
             //services.AddAdminServices<IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext>();
             // Adds the IdentityServer4 Admin UI with custom options.
             services.AddIdentityServer4AdminUI<AdminIdentityDbContext, IdentityServerConfigurationDbContext, IdentityServerPersistedGrantDbContext,
-            AdminLogDbContext, AdminAuditLogDbContext, AuditLog, IdentityServerDataProtectionDbContext,
                 UserIdentity, UserIdentityRole, UserIdentityUserClaim, UserIdentityUserRole,
                 UserIdentityUserLogin, UserIdentityRoleClaim, UserIdentityUserToken, string,
                 IdentityUserDto, IdentityRoleDto, IdentityUsersDto, IdentityRolesDto, IdentityUserRolesDto,

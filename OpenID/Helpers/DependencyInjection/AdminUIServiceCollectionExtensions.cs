@@ -118,11 +118,11 @@ namespace Microsoft.Extensions.DependencyInjection
 
             // Add all dependencies for Asp.Net Core Identity
             // If you want to change primary keys or use another db model for Asp.Net Core Identity:
-            //services.AddAdminAspNetIdentityServices<TIdentityDbContext, TPersistedGrantDbContext,
-            //    TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim,
-            //    TUserRole, TUserLogin, TRoleClaim, TUserToken, TUsersDto, TRolesDto, TUserRolesDto,
-            //    TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
-            //    TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();
+            services.AddAdminAspNetIdentityServices<TIdentityDbContext, TPersistedGrantDbContext,
+                TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim,
+                TUserRole, TUserLogin, TRoleClaim, TUserToken, TUsersDto, TRolesDto, TUserRolesDto,
+                TUserClaimsDto, TUserProviderDto, TUserProvidersDto, TUserChangePasswordDto,
+                TRoleClaimsDto, TUserClaimDto, TRoleClaimDto>();
 
 
 

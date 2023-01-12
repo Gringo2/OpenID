@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using OpenID.Constants.Shared;
 using OpenID.Entities.Identity;
-
+using OpenID.Models;
 
 namespace OpenID.DbContexts.Shared
 {
