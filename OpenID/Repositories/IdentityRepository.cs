@@ -27,17 +27,17 @@ namespace OpenID.Repositories
     {
         protected readonly TIdentityDbContext DbContext;
         protected readonly UserManager<TUser> UserManager;
-       
+        protected readonly RoleManager<TRole> RoleManager;
 
         public bool AutoSaveChanges { get; set; } = true;
 
         public IdentityRepository(TIdentityDbContext dbContext,
-            UserManager<TUser> userManager
+            UserManager<TUser> userManager, RoleManager<TRole> roleManager
            )
         {
             DbContext = dbContext;
             UserManager = userManager;
-            
+            RoleManager = roleManager;
         }
         public virtual TKey ConvertKeyFromString(string id)
         {

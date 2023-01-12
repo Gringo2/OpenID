@@ -54,7 +54,7 @@ namespace OpenID
             services.AddDbContext<AdminIdentityDbContext>(options =>
                 options.UseSqlServer(connectionString, sql => sql.MigrationsAssembly(migrationsAssembly)));
 
-            services.AddIdentity<UserIdentity, IdentityRole>()
+            services.AddIdentity<UserIdentity, UserIdentityRole>()
                 .AddEntityFrameworkStores<AdminIdentityDbContext>()
                 .AddDefaultTokenProviders()
                 .AddDefaultUI();
